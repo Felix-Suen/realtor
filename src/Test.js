@@ -54,10 +54,12 @@ const Test = () => {
             <h1>Info</h1>
 
             <table>
+                <tr style={{ textAlign: 'left' }}><th>Address</th><th>Price</th><th>Type</th><th># Bedroom</th></tr>
                 {content.map((result) => <tr>
                     <td style={{ paddingRight: '20px' }}>{result.Property.Address.AddressText}</td>
                     <td style={{ paddingRight: '20px' }}>{result.Property.Price}</td>
                     <td style={{ paddingRight: '20px' }}>{result.Property.Type}</td>
+                    <td style={{ paddingRight: '20px' }}>{result.Building.Bedrooms}</td>
                     </tr>)}
             </table>
             
