@@ -39,7 +39,20 @@ const Test = () => {
 
     useEffect(async () => {
         fetchData(options);
-    }, []);
+    }, [options]);
+
+    const onChange = e => {
+        const { name, value } = e.target;
+        setOptions(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const onSubmit = e => {
+        e.preventDefault();
+        fetchData(options);
+    }
 
     return (
         <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>
@@ -51,6 +64,32 @@ const Test = () => {
                     {errors.Id} {errors.Description}
 
                     <h1>Info</h1>
+
+                    <form onSubmit={onSubmit}>
+                        
+                        <label>Price Min: </label>
+                        <input 
+                            value={options.PriceMin}
+                            type='number'
+                            onChange={onChange}
+                            name="PriceMin"
+                        />{" "}
+                        <label>Price Max: </label>
+                        <input 
+                            value={options.PriceMax}
+                            type='number'
+                            onChange={onChange}
+                            name="PriceMax"
+                        />{" "}
+                        <label>Number of Records: </label>
+                        <input 
+                            value={options.RecordsPerPage}
+                            type='number'
+                            onChange={onChange}
+                            name="RecordsPerPage"
+                        />
+                        <br /><br />
+                    </form>
 
                     <table>
                         <tr style={{ textAlign: 'left' }}>
