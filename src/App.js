@@ -4,7 +4,6 @@ import Test from './Test';
 function App() {
     return (
         <div>
-            <div>Hello world</div>
             <Test />
         </div>
     );
