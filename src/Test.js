@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import qs from 'querystring';
 
 const Test = () => {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [content, setContent] = useState([]);
 
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+    // const proxyurl = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const options = {
-        CultureId: 1,
-        ApplicationId: 37,
-        PropertySearchTypeId: 1,
+
         LongitudeMin: -79.6758985519409,
         LongitudeMax: -79.6079635620117,
         LatitudeMin: 43.57601549736786,
@@ -18,37 +18,49 @@ const Test = () => {
         PriceMin: 100000,
         PriceMax: 1000000,
         RecordsPerPage: 100,
-        // TotalPage: 45,
-        // Pins: 438,
-        // CurrentPage: 1,
+        CultureID: 1,
+        ApplicationId: 37,
+    };
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
     };
 
     useEffect(async () => {
-        const res = await axios({
-            method: 'post',
-            url: proxyurl + url,
-            headers: {},
-            form: options,
-            json: true,
-        });
+        const res = await axios.post(
+            url,
+            qs.stringify(options),
+            config
+        );
 
         console.log(res.data);
         setErrors(res.data.ErrorCode);
         setIsLoading(false);
+        setContent(res.data.Results);
     }, []);
 
     return (
         <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>
             {isLoading ? (
-                <div>Takes a long ass time to load...</div>
+                <div>loading...</div>
             ) : (
                 <div>loaded</div>
             )}
-            <ul>
-                <li>{errors.Description}</li>
-                <li>{errors.Id}</li>
-                <li>{errors.ProductName}</li>
-            </ul>
+            {errors.Id}{" "}{errors.Description}
+            
+
+            <h1>Info</h1>
+
+            <table>
+                {content.map((result) => <tr>
+                    <td style={{ paddingRight: '20px' }}>{result.Property.Address.AddressText}</td>
+                    <td style={{ paddingRight: '20px' }}>{result.Property.Price}</td>
+                    <td style={{ paddingRight: '20px' }}>{result.Property.Type}</td>
+                    </tr>)}
+            </table>
+            
         </div>
     );
 };
