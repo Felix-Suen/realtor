@@ -7,6 +7,8 @@ const Test = () => {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
+
+    // default parameters to pass in
     const [options, setOptions] = useState({
         LongitudeMin: -79.6758985519409,
         LongitudeMax: -79.6079635620117,
@@ -19,7 +21,7 @@ const Test = () => {
         ApplicationId: 37,
     });
 
-    // const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+    // const proxy = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const config = {
         headers: {
@@ -27,6 +29,7 @@ const Test = () => {
         },
     };
 
+    // function that calls the api
     async function fetchData(opts) {
         const res = await axios.post(url, qs.stringify(opts), config);
 
@@ -37,10 +40,12 @@ const Test = () => {
         setContent(res.data.Results);
     }
 
+    // update the data whenever a parameter gets changed
     useEffect(async () => {
         fetchData(options);
     }, [options]);
 
+    // Filter that changes parameters
     const onChange = e => {
         const { name, value } = e.target;
         setOptions(prevState => ({
@@ -49,10 +54,10 @@ const Test = () => {
         }));
     };
 
-    const onSubmit = e => {
-        e.preventDefault();
-        fetchData(options);
-    }
+    // const onSubmit = e => {
+    //     e.preventDefault();
+    //     fetchData(options);
+    // }
 
     return (
         <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>
@@ -65,8 +70,7 @@ const Test = () => {
 
                     <h1>Info</h1>
 
-                    <form onSubmit={onSubmit}>
-                        
+                    <form>
                         <label>Price Min: </label>
                         <input 
                             value={options.PriceMin}
