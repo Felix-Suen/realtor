@@ -7,10 +7,7 @@ const Test = () => {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
-
-    const proxyurl = 'https://cors-anywhere.herokuapp.com/';
-    const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
-    const options = {
+    const [options, setOptions] = useState({
         LongitudeMin: -79.6758985519409,
         LongitudeMax: -79.6079635620117,
         LatitudeMin: 43.57601549736786,
@@ -20,25 +17,28 @@ const Test = () => {
         RecordsPerPage: 100,
         CultureID: 1,
         ApplicationId: 37,
-    };
+    });
 
+    // const proxyurl = 'https://cors-anywhere.herokuapp.com/';
+    const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
     };
 
-    useEffect(async () => {
-        const res = await axios.post(
-            proxyurl + url,
-            qs.stringify(options),
-            config
-        );
+    async function fetchData(opts) {
+        const res = await axios.post(url, qs.stringify(opts), config);
 
         console.log(res.data);
+        console.log(options);
         setErrors(res.data.ErrorCode);
         setIsLoading(false);
         setContent(res.data.Results);
+    }
+
+    useEffect(async () => {
+        fetchData(options);
     }, []);
 
     return (
@@ -46,24 +46,32 @@ const Test = () => {
             {isLoading ? (
                 <div>loading...</div>
             ) : (
-                <div>loaded</div>
+                <div>
+                    <div>loaded</div>
+                    {errors.Id} {errors.Description}
+
+                    <h1>Info</h1>
+
+                    <table>
+                        <tr style={{ textAlign: 'left' }}>
+                            <th>Entry</th>
+                            <th>Address</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                            <th># Bedroom</th>
+                        </tr>
+                        {content.map((result, index) => (
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{result.Property.Address.AddressText}</td>
+                                <td>{result.Property.Price}</td>
+                                <td>{result.Property.Type}</td>
+                                <td>{result.Building.Bedrooms}</td>
+                            </tr>
+                        ))}
+                    </table>
+                </div>
             )}
-            {errors.Id}{" "}{errors.Description}
-            
-
-            <h1>Info</h1>
-
-            <table>
-                <tr style={{ textAlign: 'left' }}><th>Entry</th><th>Address</th><th>Price</th><th>Type</th><th># Bedroom</th></tr>
-                {content.map((result, index) => <tr>
-                    <td>{index + 1}</td>
-                    <td>{result.Property.Address.AddressText}</td>
-                    <td>{result.Property.Price}</td>
-                    <td>{result.Property.Type}</td>
-                    <td>{result.Building.Bedrooms}</td>
-                    </tr>)}
-            </table>
-            
         </div>
     );
 };
