@@ -34,7 +34,6 @@ const Test = () => {
         const res = await axios.post(url, qs.stringify(opts), config);
 
         console.log(res.data);
-        console.log(options);
         setErrors(res.data.ErrorCode);
         setIsLoading(false);
         setContent(res.data.Results);
@@ -71,6 +70,37 @@ const Test = () => {
                     <h1>Info</h1>
 
                     <form>
+
+                        <label>Longitude min: </label>
+                        <input 
+                            value={options.LongitudeMin}
+                            type='number'
+                            onChange={onChange}
+                            name="LongitudeMin"
+                        />{" "}
+                        <label>Lattitude min: </label>
+                        <input 
+                            value={options.LatitudeMin}
+                            type='number'
+                            onChange={onChange}
+                            name="LatitudeMin"
+                        /><br /><br />
+                        <label>Longitude max: </label>
+                        <input 
+                            value={options.LongitudeMax}
+                            type='number'
+                            onChange={onChange}
+                            name="LongitudeMax"
+                        />{" "}
+                        <label>Lattitude max: </label>
+                        <input 
+                            value={options.LatitudeMax}
+                            type='number'
+                            onChange={onChange}
+                            name="LatitudeMax"
+                        />
+                        <br /><br />
+
                         <label>Price Min: </label>
                         <input 
                             value={options.PriceMin}
