@@ -8,6 +8,11 @@ const Test = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
 
+    const [coords, setCoords] = useState({
+        Longitude: -79.61436356,
+        Latitude: 43.60015014,
+    })
+
     // default parameters to pass in
     const [options, setOptions] = useState({
         LongitudeMin: -79.6758985519409,
@@ -34,6 +39,7 @@ const Test = () => {
         const res = await axios.post(url, qs.stringify(opts), config);
 
         console.log(res.data);
+        console.log(options);
         setErrors(res.data.ErrorCode);
         setIsLoading(false);
         setContent(res.data.Results);
@@ -53,6 +59,32 @@ const Test = () => {
         }));
     };
 
+    const onChangeLong = e => {
+        const { value } = e.target;
+        setCoords(prevState => ({
+            ...prevState,
+            Longitude: value,
+        }));
+        setOptions(prevState => ({
+            ...prevState,
+            LongitudeMax: parseFloat(value + 0.0064),
+            LongitudeMin: value - 0.0064,
+        }));
+    }
+
+    const onChangeLat = e => {
+        const { value } = e.target;
+        setCoords(prevState => ({
+            ...prevState,
+            Latitude: value,
+        }));
+        setOptions(prevState => ({
+            ...prevState,
+            LatitudeMax: parseFloat(value + 0.0021),
+            LatitudeMin: value - 0.0021,
+        }));
+    }
+
     // const onSubmit = e => {
     //     e.preventDefault();
     //     fetchData(options);
@@ -71,6 +103,21 @@ const Test = () => {
 
                     <form>
 
+                        <label>Actual Longitude: </label>
+                        <input 
+                            value={coords.Longitude}
+                            type='number'
+                            onChange={onChangeLong}
+                            name="Longitude"
+                        />{" "}
+                        <label>Actual Lattitude: </label>
+                        <input 
+                            value={coords.Latitude}
+                            type='number'
+                            onChange={onChangeLat}
+                            name="Latitude"
+                        /><br /><br />
+
                         <label>Longitude min: </label>
                         <input 
                             value={options.LongitudeMin}
@@ -78,7 +125,7 @@ const Test = () => {
                             onChange={onChange}
                             name="LongitudeMin"
                         />{" "}
-                        <label>Lattitude min: </label>
+                        <label>Latitude min: </label>
                         <input 
                             value={options.LatitudeMin}
                             type='number'
@@ -92,7 +139,7 @@ const Test = () => {
                             onChange={onChange}
                             name="LongitudeMax"
                         />{" "}
-                        <label>Lattitude max: </label>
+                        <label>Latitude max: </label>
                         <input 
                             value={options.LatitudeMax}
                             type='number'
