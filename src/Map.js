@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import './App.css';
 
 const Map = ({ content }) => {
@@ -10,6 +10,7 @@ const Map = ({ content }) => {
         width: '60vw',
         height: '80vh',
     });
+    const [selectedHouse, setSelectedHouse] = useState(null);
 
     return (
         <div className="map">
@@ -27,11 +28,33 @@ const Map = ({ content }) => {
                         latitude={parseFloat(house.Property.Address.Latitude)}
                         longitude={parseFloat(house.Property.Address.Longitude)}
                     >
-                        <button>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setSelectedHouse(house);
+                            }}
+                        >
                             {house.Property.Price}
                         </button>
                     </Marker>
                 ))}
+
+                {selectedHouse ? (
+                    <Popup
+                        latitude={parseFloat(selectedHouse.Property.Address.Latitude)}
+                        longitude={parseFloat(selectedHouse.Property.Address.Longitude)}
+                        onClose={() => {
+                            setSelectedHouse(null);
+                        }}
+                    >
+                        <div>
+                            <h4>{selectedHouse.Property.Address.AddressText}</h4>
+                            <p><b>Price: </b>{selectedHouse.Property.Price}</p>
+                            <p><b>Type: </b>{selectedHouse.Property.Type}</p>
+                            <p><b>Number of Bedrooms: </b>{selectedHouse.Building.Bedrooms}</p>
+                        </div>
+                    </Popup>
+                ) : null}
             </ReactMapGL>
         </div>
     );
