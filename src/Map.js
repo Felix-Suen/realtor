@@ -7,7 +7,7 @@ const Map = ({ content }) => {
         latitude: 43.60015014,
         longitude: -79.61436356,
         zoom: 13,
-        width: '60vw',
+        width: '55vw',
         height: '80vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);

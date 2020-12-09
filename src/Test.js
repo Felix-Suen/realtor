@@ -100,8 +100,6 @@ const Test = () => {
                     <div>loaded</div>
                     {errors.Id} {errors.Description}
 
-                    <Map content={content} />
-
                     <h1>Info</h1>
 
                     <form>
@@ -120,36 +118,6 @@ const Test = () => {
                             onChange={onChangeLat}
                             name="Latitude"
                         /><br /><br />
-
-                        <label>Longitude min: </label>
-                        <input 
-                            value={options.LongitudeMin}
-                            type='number'
-                            onChange={onChange}
-                            name="LongitudeMin"
-                        />{" "}
-                        <label>Latitude min: </label>
-                        <input 
-                            value={options.LatitudeMin}
-                            type='number'
-                            onChange={onChange}
-                            name="LatitudeMin"
-                        /><br /><br />
-                        <label>Longitude max: </label>
-                        <input 
-                            value={options.LongitudeMax}
-                            type='number'
-                            onChange={onChange}
-                            name="LongitudeMax"
-                        />{" "}
-                        <label>Latitude max: </label>
-                        <input 
-                            value={options.LatitudeMax}
-                            type='number'
-                            onChange={onChange}
-                            name="LatitudeMax"
-                        />
-                        <br /><br />
 
                         <label>Price Min: </label>
                         <input 
@@ -172,6 +140,10 @@ const Test = () => {
                             onChange={onChange}
                             name="RecordsPerPage"
                         />
+                        <br /><br />
+
+                        <Map content={content} />
+
                         <br /><br />
                     </form>
 
