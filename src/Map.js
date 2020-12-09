@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import './App.css';
 
-const Map = ({ content }) => {
+const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
-        latitude: 43.60015014,
-        longitude: -79.61436356,
+        latitude: coords.Latitude,
+        longitude: coords.Longitude,
         zoom: 13,
         width: '55vw',
         height: '80vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);
+
+    useEffect(() => {
+        setViewport((prevState) => ({
+            ...prevState,
+            latitude: coords.Latitude,
+            longitude: coords.Longitude,
+        }));
+    }, [coords]);
 
     return (
         <div className="map">
@@ -56,6 +64,7 @@ const Map = ({ content }) => {
                     </Popup>
                 ) : null}
             </ReactMapGL>
+            {coords.Latitude}
         </div>
     );
 };
