@@ -44,25 +44,19 @@ const Test = () => {
         const res = await axios.post(url, qs.stringify(opts), config);
 
         console.log(res.data);
-        console.log(options);
         setErrors(res.data.ErrorCode);
         setIsLoading(false);
         setContent(res.data.Results);
     }
 
     async function findGeoCode(address) {
-        // const addressConfig = {
-        //   url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
-        // }
-
         const res = await axios.get(
             'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
                 encodeURIComponent(address) +
                 '.json?access_token=pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg',
             { params: { limit: 1 } }
         );
-        console.log(res.data);
-        console.log(res.data.features[0].geometry.coordinates);
+        // console.log(res.data.features[0].geometry.coordinates);
         let long = res.data.features[0].geometry.coordinates[0];
         let lat = res.data.features[0].geometry.coordinates[1];
         setCoords((prevState) => ({
@@ -77,13 +71,10 @@ const Test = () => {
             LatitudeMax: lat + 0.0021,
             LatitudeMin: lat - 0.0021,
         }));
-        // console.log(coords);
-        // console.log(options);
     }
 
     // update the data whenever a parameter gets changed
     useEffect(async () => {
-        // findGeoCode();
         fetchData(options);
     }, [options]);
 
@@ -135,31 +126,6 @@ const Test = () => {
     //     e.preventDefault();
     //     fetchData(options);
     // }
-
-    // <label>Address: </label>
-    // <input
-    //   value='200 University Ave W, Waterloo'
-    //   type='text'
-    //   onChange={onChangeAddress}
-    //   name='Address'
-    // />
-    // <label>Property Type: </label>
-    // <input
-    //   value='Business'
-    //   type='text'
-    //   onChange=''//Add later
-    //   name='PropertyType'
-    // />
-    // </br>
-    // <label>Bedrooms: </label>
-    // <input
-    //   value='20000
-    //   type='number'
-    //   onChange=''//Add later
-    //   name='Bedrooms'
-    // />
-    //
-    // <Map content={content} />
 
     return (
         <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>

@@ -64,7 +64,6 @@ const Map = ({ content, coords }) => {
                     </Popup>
                 ) : null}
             </ReactMapGL>
-            {coords.Latitude}
         </div>
     );
 };
