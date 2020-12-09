@@ -9,6 +9,8 @@ const Test = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
 
+
+
     const [coords, setCoords] = useState({
         Longitude: -79.61436356,
         Latitude: 43.60015014,
@@ -27,6 +29,10 @@ const Test = () => {
         ApplicationId: 37,
     });
 
+    const [address, setAddress] = useState({
+      Address: '216 Canyon Hill',
+    });
+
     // const proxy = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const config = {
@@ -34,6 +40,8 @@ const Test = () => {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
     };
+
+
 
     // function that calls the api
     async function fetchData(opts) {
@@ -46,8 +54,36 @@ const Test = () => {
         setContent(res.data.Results);
     }
 
+    async function findGeoCode() {
+      // const addressConfig = {
+      //   url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
+      // }
+
+      const res = await axios.get('https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address.Address) + '.json?access_token=pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg',{ params: { limit: 1 } });
+      console.log(res.data);
+      console.log(res.data.features[0].geometry.coordinates);
+      let long = res.data.features[0].geometry.coordinates[0];
+      let lat = res.data.features[0].geometry.coordinates[1]
+      setCoords(prevState => ({
+          Longitude: long,
+          Latitude: lat
+      }));
+      setOptions(prevState => ({
+          ...prevState,
+          LongitudeMax: long + 0.0064,
+          LongitudeMin: long - 0.0064,
+          LatitudeMax: lat + 0.0021,
+          LatitudeMin: lat - 0.0021,
+      }));
+      // console.log(coords);
+      // console.log(options);
+
+
+    }
+
     // update the data whenever a parameter gets changed
     useEffect(async () => {
+        findGeoCode();
         fetchData(options);
     }, [options]);
 
@@ -86,10 +122,44 @@ const Test = () => {
         }));
     }
 
+    const onChangeAddress = e => {
+      const {value} = e.target;
+      setAddress(prevState => ({
+          ...prevState,
+          Address: value,
+      }));
+    }
+
     // const onSubmit = e => {
     //     e.preventDefault();
     //     fetchData(options);
     // }
+
+
+    // <label>Address: </label>
+    // <input
+    //   value='200 University Ave W, Waterloo'
+    //   type='text'
+    //   onChange={onChangeAddress}
+    //   name='Address'
+    // />
+    // <label>Property Type: </label>
+    // <input
+    //   value='Business'
+    //   type='text'
+    //   onChange=''//Add later
+    //   name='PropertyType'
+    // />
+    // </br>
+    // <label>Bedrooms: </label>
+    // <input
+    //   value='20000
+    //   type='number'
+    //   onChange=''//Add later
+    //   name='Bedrooms'
+    // />
+    //
+    // <Map content={content} />
 
     return (
         <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>
@@ -104,15 +174,23 @@ const Test = () => {
 
                     <form>
 
-                        <label>Actual Longitude: </label>
-                        <input 
+
+                    <label>Address: </label>
+                    <input
+                      value={address.Address}
+                      type='text'
+                      onChange={onChangeAddress}
+                      name='Address'
+                    />
+                    <label>Actual Longitude: </label>
+                        <input
                             value={coords.Longitude}
                             type='number'
                             onChange={onChangeLong}
                             name="Longitude"
                         />{" "}
-                        <label>Actual Lattitude: </label>
-                        <input 
+                        <label>Actual Latitude: </label>
+                        <input
                             value={coords.Latitude}
                             type='number'
                             onChange={onChangeLat}
@@ -120,21 +198,21 @@ const Test = () => {
                         /><br /><br />
 
                         <label>Price Min: </label>
-                        <input 
+                        <input
                             value={options.PriceMin}
                             type='number'
                             onChange={onChange}
                             name="PriceMin"
                         />{" "}
                         <label>Price Max: </label>
-                        <input 
+                        <input
                             value={options.PriceMax}
                             type='number'
                             onChange={onChange}
                             name="PriceMax"
                         />{" "}
                         <label>Number of Records: </label>
-                        <input 
+                        <input
                             value={options.RecordsPerPage}
                             type='number'
                             onChange={onChange}
