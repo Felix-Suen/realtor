@@ -100,7 +100,7 @@ const Test = () => {
                     <div>loaded</div>
                     {errors.Id} {errors.Description}
 
-                    <Map />
+                    <Map content={content} />
 
                     <h1>Info</h1>
 
