@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import '../App.css';
+import './Style.css';
 
 const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
@@ -21,7 +21,7 @@ const Map = ({ content, coords }) => {
     }, [coords]);
 
     return (
-        <div className="map">
+        <div>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken="pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg"

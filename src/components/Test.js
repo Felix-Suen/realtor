@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'querystring';
 import Map from './Map';
-import '../App.css';
+import Intro from './Intro';
+import './Style.css';
+import tower from '../img/tower.png';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Test = () => {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
-
     const [coords, setCoords] = useState({
         Longitude: -79.61436356,
         Latitude: 43.60015014,
@@ -21,15 +23,23 @@ const Test = () => {
         LatitudeMin: 43.57601549736786,
         LatitudeMax: 43.602250137362276,
         PriceMin: 100000,
-        PriceMax: 1000000,
-        RecordsPerPage: 100,
+        PriceMax: 100000000,
+        RecordsPerPage: 500,
         CultureID: 1,
         ApplicationId: 37,
     });
-
     const [address, setAddress] = useState({
-        Address: '216 Canyon Hill',
+        Address: '',
     });
+    const [isAddress, setIsAddress] = useState(false);
+
+    useEffect(() => {
+        if (address.Address != '') {
+            setIsAddress(true);
+        } else {
+            setIsAddress(false);
+        }
+    }, [address])
 
     // const proxy = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
@@ -87,32 +97,6 @@ const Test = () => {
         }));
     };
 
-    const onChangeLong = (e) => {
-        const { value } = e.target;
-        setCoords((prevState) => ({
-            ...prevState,
-            Longitude: value,
-        }));
-        setOptions((prevState) => ({
-            ...prevState,
-            LongitudeMax: parseFloat(value + 0.0064),
-            LongitudeMin: value - 0.0064,
-        }));
-    };
-
-    const onChangeLat = (e) => {
-        const { value } = e.target;
-        setCoords((prevState) => ({
-            ...prevState,
-            Latitude: value,
-        }));
-        setOptions((prevState) => ({
-            ...prevState,
-            LatitudeMax: parseFloat(value + 0.0021),
-            LatitudeMin: value - 0.0021,
-        }));
-    };
-
     const onChangeAddress = (e) => {
         const { value } = e.target;
         setAddress((prevState) => ({
@@ -122,89 +106,92 @@ const Test = () => {
         findGeoCode(address.Address);
     };
 
-    // const onSubmit = e => {
-    //     e.preventDefault();
-    //     fetchData(options);
-    // }
-
     return (
-        <div style={{ display: 'table', margin: '0 auto', padding: '20px' }}>
+        <div className="everything">
             {isLoading ? (
                 <div>loading...</div>
             ) : (
-                <div>
-                    <div>loaded</div>
-                    {errors.Id} {errors.Description}
-                    <h1>Info</h1>
-                    <form>
-                        <label>Address: </label>
-                        <input
-                            value={address.Address}
-                            type="text"
-                            onChange={onChangeAddress}
-                            name="Address"
-                        />
-                        <label>Actual Longitude: </label>
-                        <input
-                            value={coords.Longitude}
-                            type="number"
-                            onChange={onChangeLong}
-                            name="Longitude"
-                        />{' '}
-                        <label>Actual Latitude: </label>
-                        <input
-                            value={coords.Latitude}
-                            type="number"
-                            onChange={onChangeLat}
-                            name="Latitude"
-                        />
-                        <br />
-                        <br />
-                        <label>Price Min: </label>
-                        <input
-                            value={options.PriceMin}
-                            type="number"
-                            onChange={onChange}
-                            name="PriceMin"
-                        />{' '}
-                        <label>Price Max: </label>
-                        <input
-                            value={options.PriceMax}
-                            type="number"
-                            onChange={onChange}
-                            name="PriceMax"
-                        />{' '}
-                        <label>Number of Records: </label>
-                        <input
-                            value={options.RecordsPerPage}
-                            type="number"
-                            onChange={onChange}
-                            name="RecordsPerPage"
-                        />
-                        <br />
-                        <br />
-                        <Map content={content} coords={coords}/>
-                        <br />
-                        <br />
-                    </form>
-                    <table>
-                        <tr style={{ textAlign: 'left' }}>
-                            <th>Entry</th>
-                            <th>Address</th>
-                            <th>Price</th>
-                            <th>Type</th>
-                            <th># Bedroom</th>
-                        </tr>
-                        {content.map((result, index) => (
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{result.Property.Address.AddressText}</td>
-                                <td>{result.Property.Price}</td>
-                                <td>{result.Property.Type}</td>
-                                <td>{result.Building.Bedrooms}</td>
-                            </tr>
-                        ))}
-                    </table>
+                <div className="about">
+                    <Container>
+                        <Row>
+                            <Col md={6}>
+                                <img src={tower} alt="tower" />
+                            </Col>
+                            <Col md={6}>
+                                <h3>House Price Valuations Made Easy!</h3>
+                                <form className="search">
+                                    <input
+                                        value={address.Address}
+                                        type="text"
+                                        onChange={onChangeAddress}
+                                        name="Address"
+                                        className="searchTerm"
+                                        placeholder="Search City, Neighbourhood, or Address"
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="searchButton"
+                                    >
+                                        Go
+                                    </button>
+                                </form>
+                            </Col>
+                        </Row>
+                    </Container>
+                    {isAddress ? (
+                        <div style={{ textAlign: "center" }}>
+                            <form>
+                                <br />
+                                <br />
+                                <label>Price Min: </label>
+                                <input
+                                    value={options.PriceMin}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMin"
+                                />{' '}
+                                <label>Price Max: </label>
+                                <input
+                                    value={options.PriceMax}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMax"
+                                />{' '}
+                                <label>Number of Records: </label>
+                                <input
+                                    value={options.RecordsPerPage}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="RecordsPerPage"
+                                />
+                                <br />
+                                <br />
+                                <div className="map"><Map content={content} coords={coords} /></div>
+                                <br />
+                                <br />
+                            </form>
+                            <table style={{ display: 'table', margin: '0 auto' }}>
+                                <tr style={{ textAlign: 'left' }}>
+                                    <th>Entry</th>
+                                    <th>Address</th>
+                                    <th>Price</th>
+                                    <th>Type</th>
+                                    <th># Bedroom</th>
+                                </tr>
+                                {content.map((result, index) => (
+                                    <tr>
+                                        <td>{index + 1}</td>
+                                        <td>
+                                            {result.Property.Address.AddressText}
+                                        </td>
+                                        <td>{result.Property.Price}</td>
+                                        <td>{result.Property.Type}</td>
+                                        <td>{result.Building.Bedrooms}</td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </div>
+                    ) : <Intro />}
                 </div>
             )}
         </div>
