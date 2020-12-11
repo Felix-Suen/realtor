@@ -1,0 +1,57 @@
+.about {
+    padding-top: 20vh;
+    padding-bottom: 10vh;
+    height: 90vh;
+    width: 100%;
+}
+
+.about img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: auto;
+}
+
+.about h3 {
+    color: #f3746f;
+    padding-top: 50px;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+    width: 90%;
+    display: flex;
+    position: relative;
+    top: 20%;
+}
+
+.searchTerm {
+    width: 100%;
+    border: 3px solid #f3746f;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9dbfaf;
+}
+
+.searchTerm:focus {
+    color: black;
+}
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #f3746f;
+    background: #f3746f;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}

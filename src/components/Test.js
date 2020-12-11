@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'querystring';
 import Map from './Map';
-import './App.css';
+import '../App.css';
 
 const Test = () => {
     const [errors, setErrors] = useState({});

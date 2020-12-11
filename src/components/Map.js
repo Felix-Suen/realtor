@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import './App.css';
+import '../App.css';
 
 const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({

@@ -1,10 +1,12 @@
 import './App.css';
-import Test from './Test';
+import Home from './components/Home';
+import Test from './components/Test';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
-        <div>
-            <Test />
+        <div className="home">
+            <Home />
         </div>
     );
 }
