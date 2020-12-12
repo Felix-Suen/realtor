@@ -8,7 +8,6 @@ import tower from '../img/tower.png';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const Test = () => {
-    const [errors, setErrors] = useState({});
     const [content, setContent] = useState([]);
     const [coords, setCoords] = useState({
         Longitude: -79.61436356,
@@ -53,7 +52,6 @@ const Test = () => {
         const res = await axios.post(url, qs.stringify(opts), config);
 
         console.log(res.data);
-        setErrors(res.data.ErrorCode);
         setContent(res.data.Results);
     }
 
