@@ -67,6 +67,7 @@ const Map = ({ content, coords }) => {
                                 <Row>
                                     <Col>
                                         <p>
+                                            <br />
                                             <b>Price: </b>
                                             {selectedHouse.Property.Price}
                                             <br />
