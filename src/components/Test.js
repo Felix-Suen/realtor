@@ -5,7 +5,7 @@ import Map from './Map';
 import Intro from './Intro';
 import './Style.css';
 import tower from '../img/tower.png';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
 const Test = () => {
     const [content, setContent] = useState([]);
@@ -13,33 +13,34 @@ const Test = () => {
         Longitude: -79.61436356,
         Latitude: 43.60015014,
     });
+    const [loading, setLoading] = useState(true);
+    const [address, setAddress] = useState({
+        Address: '',
+    });
 
     // default parameters to pass in
     const [options, setOptions] = useState({
-        LongitudeMin: -79.6758985519409,
-        LongitudeMax: -79.6079635620117,
-        LatitudeMin: 43.57601549736786,
-        LatitudeMax: 43.602250137362276,
+        LongitudeMin: null,
+        LongitudeMax: null,
+        LatitudeMin: null,
+        LatitudeMax: null,
         PriceMin: 100000,
         PriceMax: 100000000,
         RecordsPerPage: 500,
         CultureID: 1,
         ApplicationId: 37,
     });
-    const [address, setAddress] = useState({
-        Address: '',
-    });
+    const [addressLoading, setAddressLoading] = useState(true);
     const [isAddress, setIsAddress] = useState(false);
 
+    // toggle displayed map on and off
     useEffect(() => {
-        if (address.Address != '') {
-            setIsAddress(true);
-        } else {
+        if (address.Address === '') {
             setIsAddress(false);
         }
     }, [address]);
 
-    // const proxy = 'https://cors-anywhere.herokuapp.com/';
+    const proxy = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const config = {
         headers: {
@@ -49,10 +50,12 @@ const Test = () => {
 
     // function that calls the api
     async function fetchData(opts) {
-        const res = await axios.post(url, qs.stringify(opts), config);
-
+        console.log(opts);
+        const res = await axios.post(proxy + url, qs.stringify(opts), config);
         console.log(res.data);
         setContent(res.data.Results);
+        setLoading(false);
+        setAddressLoading(true);
     }
 
     async function findGeoCode(address) {
@@ -62,7 +65,7 @@ const Test = () => {
                 '.json?access_token=pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg',
             { params: { limit: 1 } }
         );
-        // console.log(res.data.features[0].geometry.coordinates);
+        console.log(res.data.features[0].geometry.coordinates);
         let long = res.data.features[0].geometry.coordinates[0];
         let lat = res.data.features[0].geometry.coordinates[1];
         setCoords((prevState) => ({
@@ -77,12 +80,8 @@ const Test = () => {
             LatitudeMax: lat + 0.0021,
             LatitudeMin: lat - 0.0021,
         }));
+        setAddressLoading(false);
     }
-
-    // update the data whenever a parameter gets changed
-    useEffect(async () => {
-        fetchData(options);
-    }, [options]);
 
     // Filter that changes parameters
     const onChange = (e) => {
@@ -99,8 +98,19 @@ const Test = () => {
             ...prevState,
             Address: value,
         }));
-        findGeoCode(address.Address);
     };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        findGeoCode(address.Address);
+        if (address.Address !== '') setIsAddress(true);
+    };
+
+    // fetch housing data whenever new address is loaded
+    useEffect(() => {
+        if (addressLoading === false) fetchData(options);
+    }, [addressLoading]);
 
     return (
         <div className="everything">
@@ -112,7 +122,7 @@ const Test = () => {
                         </Col>
                         <Col md={6}>
                             <h3>House Price Valuations Made Easy!</h3>
-                            <form className="search">
+                            <form className="search" onSubmit={onSubmit}>
                                 <input
                                     value={address.Address}
                                     type="text"
@@ -128,62 +138,75 @@ const Test = () => {
                         </Col>
                     </Row>
                 </Container>
-                
+
                 {isAddress ? (
-                    <div style={{ textAlign: 'center' }}>
-                        <form>
-                            <br />
-                            <br />
-                            <label>Price Min: </label>
-                            <input
-                                value={options.PriceMin}
-                                type="number"
-                                onChange={onChange}
-                                name="PriceMin"
-                            />{' '}
-                            <label>Price Max: </label>
-                            <input
-                                value={options.PriceMax}
-                                type="number"
-                                onChange={onChange}
-                                name="PriceMax"
-                            />{' '}
-                            <label>Number of Records: </label>
-                            <input
-                                value={options.RecordsPerPage}
-                                type="number"
-                                onChange={onChange}
-                                name="RecordsPerPage"
-                            />
-                            <br />
-                            <br />
-                            <div className="map">
-                                <Map content={content} coords={coords} />
-                            </div>
-                            <br />
-                            <br />
-                        </form>
-                        <table style={{ display: 'table', margin: '0 auto' }}>
-                            <tr style={{ textAlign: 'left' }}>
-                                <th>Entry</th>
-                                <th>Address</th>
-                                <th>Price</th>
-                                <th>Type</th>
-                                <th># Bedroom</th>
-                            </tr>
-                            {content.map((result, index) => (
-                                <tr>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                        {result.Property.Address.AddressText}
-                                    </td>
-                                    <td>{result.Property.Price}</td>
-                                    <td>{result.Property.Type}</td>
-                                    <td>{result.Building.Bedrooms}</td>
+                    loading ? (
+                        <div style={{ textAlign: 'center' }}>
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
+                        </div>
+                    ) : (
+                        <div style={{ textAlign: 'center' }}>
+                            <form>
+                                <br />
+                                <br />
+                                <label>Price Min: </label>
+                                <input
+                                    value={options.PriceMin}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMin"
+                                />{' '}
+                                <label>Price Max: </label>
+                                <input
+                                    value={options.PriceMax}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMax"
+                                />{' '}
+                                <label>Number of Records: </label>
+                                <input
+                                    value={options.RecordsPerPage}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="RecordsPerPage"
+                                />
+                                <br />
+                                <br />
+                                <div className="map">
+                                    <Map content={content} coords={coords} />
+                                </div>
+                                <br />
+                                <br />
+                            </form>
+                            <table
+                                style={{ display: 'table', margin: '0 auto' }}
+                            >
+                                <tr style={{ textAlign: 'left' }}>
+                                    <th>Entry</th>
+                                    <th>Address</th>
+                                    <th>Price</th>
+                                    <th>Type</th>
+                                    <th># Bedroom</th>
                                 </tr>
-                            ))}
-                        </table>
-                    </div>
+                                {content.map((result, index) => (
+                                    <tr>
+                                        <td>{index + 1}</td>
+                                        <td>
+                                            {
+                                                result.Property.Address
+                                                    .AddressText
+                                            }
+                                        </td>
+                                        <td>{result.Property.Price}</td>
+                                        <td>{result.Property.Type}</td>
+                                        <td>{result.Building.Bedrooms}</td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </div>
+                    )
                 ) : (
                     <Intro />
                 )}
