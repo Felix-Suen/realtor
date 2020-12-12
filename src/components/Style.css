@@ -69,7 +69,27 @@ body {
     color: #fff;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+    font-size: 15px;
+}
+
+/* filter */
+label {
+    height: 35px;
+    text-align: center;
+    border: 1px solid #f3746f;
+    background: #f3746f;
+    color: #fff;
+    border-radius: 5px 0 0 5px;
     font-size: 20px;
+}
+
+.filter {
+    width: 150px;
+    height: 35px;
+    border: 3px solid #f3746f;
+    border-radius: 0 5px 5px 0;
+    outline: none;
+    color: black;
 }
 
 /* content */

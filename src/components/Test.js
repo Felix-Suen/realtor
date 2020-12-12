@@ -159,6 +159,7 @@ const Test = () => {
                                     type="number"
                                     onChange={onChange}
                                     name="PriceMin"
+                                    className="filter"
                                 />{' '}
                                 <label>Price Max: </label>
                                 <input
@@ -166,6 +167,7 @@ const Test = () => {
                                     type="number"
                                     onChange={onChange}
                                     name="PriceMax"
+                                    className="filter"
                                 />{' '}
                                 <label>Number of Records: </label>
                                 <input
@@ -173,6 +175,7 @@ const Test = () => {
                                     type="number"
                                     onChange={onChange}
                                     name="RecordsPerPage"
+                                    className="filter"
                                 />
                                 <br />
                                 <br />
