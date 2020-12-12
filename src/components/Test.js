@@ -3,6 +3,7 @@ import axios from 'axios';
 import qs from 'querystring';
 import Map from './Map';
 import Intro from './Intro';
+import DataDisplay from './DataDisplay';
 import './Style.css';
 import tower from '../img/tower.png';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
@@ -75,10 +76,10 @@ const Test = () => {
         }));
         setOptions((prevState) => ({
             ...prevState,
-            LongitudeMax: long + 0.0064,
-            LongitudeMin: long - 0.0064,
-            LatitudeMax: lat + 0.0021,
-            LatitudeMin: lat - 0.0021,
+            LongitudeMax: long + 0.007,
+            LongitudeMin: long - 0.007,
+            LatitudeMax: lat + 0.007,
+            LatitudeMin: lat - 0.007,
         }));
         setAddressLoading(false);
     }
@@ -174,37 +175,16 @@ const Test = () => {
                                 />
                                 <br />
                                 <br />
-                                <div className="map">
-                                    <Map content={content} coords={coords} />
-                                </div>
-                                <br />
-                                <br />
                             </form>
-                            <table
-                                style={{ display: 'table', margin: '0 auto' }}
-                            >
-                                <tr style={{ textAlign: 'left' }}>
-                                    <th>Entry</th>
-                                    <th>Address</th>
-                                    <th>Price</th>
-                                    <th>Type</th>
-                                    <th># Bedroom</th>
-                                </tr>
-                                {content.map((result, index) => (
-                                    <tr>
-                                        <td>{index + 1}</td>
-                                        <td>
-                                            {
-                                                result.Property.Address
-                                                    .AddressText
-                                            }
-                                        </td>
-                                        <td>{result.Property.Price}</td>
-                                        <td>{result.Property.Type}</td>
-                                        <td>{result.Building.Bedrooms}</td>
-                                    </tr>
-                                ))}
-                            </table>
+
+                            <div className="map">
+                                <Map content={content} coords={coords} />
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <DataDisplay content={content} />
                         </div>
                     )
                 ) : (
