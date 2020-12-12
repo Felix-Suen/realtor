@@ -41,7 +41,7 @@ body{
 
 /* search bar */
 .search {
-    width: 90%;
+    width: 80%;
     display: flex;
     position: relative;
     top: 20%;

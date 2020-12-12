@@ -9,7 +9,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const Test = () => {
     const [errors, setErrors] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
     const [content, setContent] = useState([]);
     const [coords, setCoords] = useState({
         Longitude: -79.61436356,
@@ -39,7 +38,7 @@ const Test = () => {
         } else {
             setIsAddress(false);
         }
-    }, [address])
+    }, [address]);
 
     // const proxy = 'https://cors-anywhere.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
@@ -55,7 +54,6 @@ const Test = () => {
 
         console.log(res.data);
         setErrors(res.data.ErrorCode);
-        setIsLoading(false);
         setContent(res.data.Results);
     }
 
@@ -108,92 +106,89 @@ const Test = () => {
 
     return (
         <div className="everything">
-            {isLoading ? (
-                <div>loading...</div>
-            ) : (
-                <div className="about">
-                    <Container>
-                        <Row>
-                            <Col md={6}>
-                                <img src={tower} alt="tower" />
-                            </Col>
-                            <Col md={6}>
-                                <h3>House Price Valuations Made Easy!</h3>
-                                <form className="search">
-                                    <input
-                                        value={address.Address}
-                                        type="text"
-                                        onChange={onChangeAddress}
-                                        name="Address"
-                                        className="searchTerm"
-                                        placeholder="Search City, Neighbourhood, or Address"
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="searchButton"
-                                    >
-                                        Go
-                                    </button>
-                                </form>
-                            </Col>
-                        </Row>
-                    </Container>
-                    {isAddress ? (
-                        <div style={{ textAlign: "center" }}>
-                            <form>
-                                <br />
-                                <br />
-                                <label>Price Min: </label>
+            <div className="about">
+                <Container>
+                    <Row>
+                        <Col md={6}>
+                            <img src={tower} alt="tower" />
+                        </Col>
+                        <Col md={6}>
+                            <h3>House Price Valuations Made Easy!</h3>
+                            <form className="search">
                                 <input
-                                    value={options.PriceMin}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="PriceMin"
-                                />{' '}
-                                <label>Price Max: </label>
-                                <input
-                                    value={options.PriceMax}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="PriceMax"
-                                />{' '}
-                                <label>Number of Records: </label>
-                                <input
-                                    value={options.RecordsPerPage}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="RecordsPerPage"
+                                    value={address.Address}
+                                    type="text"
+                                    onChange={onChangeAddress}
+                                    name="Address"
+                                    className="searchTerm"
+                                    placeholder="Search City, Neighbourhood, or Address"
                                 />
-                                <br />
-                                <br />
-                                <div className="map"><Map content={content} coords={coords} /></div>
-                                <br />
-                                <br />
+                                <button type="submit" className="searchButton">
+                                    Go
+                                </button>
                             </form>
-                            <table style={{ display: 'table', margin: '0 auto' }}>
-                                <tr style={{ textAlign: 'left' }}>
-                                    <th>Entry</th>
-                                    <th>Address</th>
-                                    <th>Price</th>
-                                    <th>Type</th>
-                                    <th># Bedroom</th>
+                        </Col>
+                    </Row>
+                </Container>
+                {isAddress ? (
+                    <div style={{ textAlign: 'center' }}>
+                        <form>
+                            <br />
+                            <br />
+                            <label>Price Min: </label>
+                            <input
+                                value={options.PriceMin}
+                                type="number"
+                                onChange={onChange}
+                                name="PriceMin"
+                            />{' '}
+                            <label>Price Max: </label>
+                            <input
+                                value={options.PriceMax}
+                                type="number"
+                                onChange={onChange}
+                                name="PriceMax"
+                            />{' '}
+                            <label>Number of Records: </label>
+                            <input
+                                value={options.RecordsPerPage}
+                                type="number"
+                                onChange={onChange}
+                                name="RecordsPerPage"
+                            />
+                            <br />
+                            <br />
+                            <div className="map">
+                                <Map content={content} coords={coords} />
+                            </div>
+                            <br />
+                            <br />
+                        </form>
+                        <table style={{ display: 'table', margin: '0 auto' }}>
+                            <tr style={{ textAlign: 'left' }}>
+                                <th>Entry</th>
+                                <th>Address</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th># Bedroom</th>
+                            </tr>
+                            {content.map((result, index) => (
+                                <tr>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                        {result.Property.Address.AddressText}
+                                    </td>
+                                    <td>{result.Property.Price}</td>
+                                    <td>{result.Property.Type}</td>
+                                    <td>{result.Building.Bedrooms}</td>
                                 </tr>
-                                {content.map((result, index) => (
-                                    <tr>
-                                        <td>{index + 1}</td>
-                                        <td>
-                                            {result.Property.Address.AddressText}
-                                        </td>
-                                        <td>{result.Property.Price}</td>
-                                        <td>{result.Property.Type}</td>
-                                        <td>{result.Building.Bedrooms}</td>
-                                    </tr>
-                                ))}
-                            </table>
-                        </div>
-                    ) : <Intro />}
-                </div>
-            )}
+                            ))}
+                        </table>
+                    </div>
+                ) : (
+                    <Intro />
+                )}
+            </div>
         </div>
     );
 };
