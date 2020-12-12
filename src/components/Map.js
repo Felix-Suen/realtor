@@ -55,7 +55,7 @@ const Map = ({ content, coords }) => {
                             setSelectedHouse(null);
                         }}
                     >
-                        <div>
+                        <div style={{ textAlign: 'left' }}>
                             <h4>{selectedHouse.Property.Address.AddressText}</h4>
                             <p><b>Price: </b>{selectedHouse.Property.Price}</p>
                             <p><b>Type: </b>{selectedHouse.Property.Type}</p>
