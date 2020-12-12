@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import './Style.css';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
@@ -37,6 +38,7 @@ const Map = ({ content, coords }) => {
                         longitude={parseFloat(house.Property.Address.Longitude)}
                     >
                         <button
+                            className="marker"
                             onClick={(e) => {
                                 e.preventDefault();
                                 setSelectedHouse(house);
@@ -49,17 +51,42 @@ const Map = ({ content, coords }) => {
 
                 {selectedHouse ? (
                     <Popup
-                        latitude={parseFloat(selectedHouse.Property.Address.Latitude)}
-                        longitude={parseFloat(selectedHouse.Property.Address.Longitude)}
+                        latitude={parseFloat(
+                            selectedHouse.Property.Address.Latitude
+                        )}
+                        longitude={parseFloat(
+                            selectedHouse.Property.Address.Longitude
+                        )}
                         onClose={() => {
                             setSelectedHouse(null);
                         }}
                     >
-                        <div style={{ textAlign: 'left' }}>
-                            <h4>{selectedHouse.Property.Address.AddressText}</h4>
-                            <p><b>Price: </b>{selectedHouse.Property.Price}</p>
-                            <p><b>Type: </b>{selectedHouse.Property.Type}</p>
-                            <p><b>Number of Bedrooms: </b>{selectedHouse.Building.Bedrooms}</p>
+                        <div className="popup">
+                            <b>{selectedHouse.Property.Address.AddressText}</b>
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <p>
+                                            <b>Price: </b>
+                                            {selectedHouse.Property.Price}
+                                            <br />
+                                            <b>Type: </b>
+                                            {selectedHouse.Property.Type}
+                                            <br />
+                                            <b>Number of Bedrooms: </b>
+                                            {selectedHouse.Building.Bedrooms}
+                                        </p>
+                                    </Col>
+                                    <Col>
+                                        <img
+                                            src={
+                                                selectedHouse.Property.Photo[0]
+                                                    .MedResPath
+                                            }
+                                        />
+                                    </Col>
+                                </Row>
+                            </Container>
                         </div>
                     </Popup>
                 ) : null}

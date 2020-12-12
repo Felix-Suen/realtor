@@ -1,8 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-body{
+body {
     background: #ffffff;
     font-family: 'Open Sans', sans-serif;
-  }
+}
 
 .everything {
     display: table;
@@ -73,15 +73,45 @@ body{
 }
 
 /* content */
-table, th, td {
+table,
+th,
+td {
     border: 1px solid black;
     border-collapse: collapse;
-  }
-  th, td {
+}
+th,
+td {
     padding: 10px;
-  }
+}
 
 .map {
     display: table;
     margin: 0 auto;
+}
+
+/* map */
+.mapboxgl-popup-content {
+    background: #f3746f;
+}
+
+.popup {
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.popup img {
+    width: 120px;
+    height: 120px;
+    margin: none;
+}
+
+.marker {
+    border: 2px solid #f3746f;
+    background: #f2f2f2;
+    text-align: center;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
 }
