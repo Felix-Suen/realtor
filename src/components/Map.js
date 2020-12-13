@@ -7,9 +7,9 @@ const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
         latitude: coords.Latitude,
         longitude: coords.Longitude,
-        zoom: 13,
+        zoom: 14,
         width: '55vw',
-        height: '80vh',
+        height: '70vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);
 
@@ -62,7 +62,7 @@ const Map = ({ content, coords }) => {
                         }}
                     >
                         <div className="popup">
-                            <b>{selectedHouse.Property.Address.AddressText}</b>
+                            <b style={{ color: '#f3746f' }}>{selectedHouse.Property.Address.AddressText}</b>
                             <Container>
                                 <Row>
                                     <Col>
