@@ -72,6 +72,13 @@ body {
     font-size: 20px;
 }
 
+/* loading */
+.loading {
+    text-align: center; 
+    color: #f3746f; 
+    padding-top: 5vh;
+}
+
 /* filter */
 label {
     height: 35px;

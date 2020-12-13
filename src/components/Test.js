@@ -42,7 +42,7 @@ const Test = () => {
         }
     }, [address]);
 
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
+    const proxy = 'https://realtor-proxy.herokuapp.com/';
     const url = 'https://api.realtor.ca/Listing.svc/PropertySearch_Post';
     const config = {
         headers: {
@@ -52,7 +52,6 @@ const Test = () => {
 
     // function that calls the api
     async function fetchData(opts) {
-        console.log(opts);
         const res = await axios.post(proxy + url, qs.stringify(opts), config);
         console.log(res.data);
         setContent(res.data.Results);
@@ -143,10 +142,11 @@ const Test = () => {
 
                 {isAddress ? (
                     loading ? (
-                        <div style={{ textAlign: 'center' }}>
+                        <div className="loading">
                             <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
+                            <p>Might take a hot minute...</p>
                         </div>
                     ) : (
                         <div style={{ textAlign: 'center' }}>
