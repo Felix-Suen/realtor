@@ -6,7 +6,7 @@ body {
 
 .everything {
     display: table;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -47,7 +47,7 @@ body {
 }
 
 .searchTerm {
-    width: 85%;
+    width: 90%;
     border: 3px solid #f3746f;
     border-right: none;
     border-radius: 5px 0 0 5px;
