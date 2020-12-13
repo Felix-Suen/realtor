@@ -41,14 +41,13 @@ body {
 
 /* search bar */
 .search {
-    width: 80%;
     display: flex;
     position: relative;
     top: 20%;
 }
 
 .searchTerm {
-    width: 100%;
+    width: 85%;
     border: 3px solid #f3746f;
     border-right: none;
     border-radius: 5px 0 0 5px;
@@ -80,23 +79,33 @@ body {
 }
 
 /* filter */
+.filter-form {
+    display: flex;
+    position: relative;
+    padding-top: 10vh;
+    justify-content: center;
+}
+
 label {
-    height: 35px;
-    text-align: center;
+    height: 36px;
     border: 1px solid #f3746f;
     background: #f3746f;
+    text-align: right;
     color: #fff;
     border-radius: 5px 0 0 5px;
+    cursor: pointer;
     font-size: 20px;
+    width: 100px;
 }
 
 .filter {
-    width: 150px;
-    height: 35px;
     border: 3px solid #f3746f;
     border-radius: 0 5px 5px 0;
     outline: none;
-    color: black;
+    color: #9dbfaf;
+    height: 36px;
+    width: 110px;
+    margin-right: 5px;
 }
 
 /* content */

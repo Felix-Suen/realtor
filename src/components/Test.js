@@ -30,7 +30,7 @@ const Test = () => {
         RecordsPerPage: 500,
         CultureID: 1,
         ApplicationId: 37,
-        PropertySearchTypeId: 1
+        PropertySearchTypeId: 1,
     });
     const [addressLoading, setAddressLoading] = useState(true);
     const [isAddress, setIsAddress] = useState(false);
@@ -149,36 +149,28 @@ const Test = () => {
                             <p>Might take a hot minute...</p>
                         </div>
                     ) : (
-                        <div style={{ textAlign: 'center' }}>
-                            <form>
-                                <br />
-                                <br />
-                                <label>Price Min: </label>
-                                <input
-                                    value={options.PriceMin}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="PriceMin"
-                                    className="filter"
-                                />{' '}
-                                <label>Price Max: </label>
-                                <input
-                                    value={options.PriceMax}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="PriceMax"
-                                    className="filter"
-                                />{' '}
-                                <label>Number of Records: </label>
-                                <input
-                                    value={options.RecordsPerPage}
-                                    type="number"
-                                    onChange={onChange}
-                                    name="RecordsPerPage"
-                                    className="filter"
-                                />
-                                <br />
-                                <br />
+                        <div>
+                            <form className="filter-form">
+                            <br />
+                            <br />
+                            <label>Price Min: </label>
+                            <input
+                                value={options.PriceMin}
+                                type="number"
+                                onChange={onChange}
+                                name="PriceMin"
+                                className="filter"
+                            />{' '}
+                            <label>Price Max: </label>
+                            <input
+                                value={options.PriceMax}
+                                type="number"
+                                onChange={onChange}
+                                name="PriceMax"
+                                className="filter"
+                            />
+                            <br />
+                            <br />
                             </form>
 
                             <div className="map">

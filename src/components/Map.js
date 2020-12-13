@@ -8,7 +8,7 @@ const Map = ({ content, coords }) => {
         latitude: coords.Latitude,
         longitude: coords.Longitude,
         zoom: 14,
-        width: '55vw',
+        width: '70vw',
         height: '70vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);
