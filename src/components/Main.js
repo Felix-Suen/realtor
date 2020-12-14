@@ -8,7 +8,7 @@ import './Style.css';
 import tower from '../img/tower.png';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
-const Test = () => {
+const Main = () => {
     const [content, setContent] = useState([]);
     const [coords, setCoords] = useState({
         Longitude: -79.61436356,
@@ -241,4 +241,4 @@ const Test = () => {
     );
 };
 
-export default Test;
+export default Main;
