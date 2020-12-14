@@ -18,6 +18,9 @@ const Test = () => {
     const [address, setAddress] = useState({
         Address: '',
     });
+    const [recordsMin, setRecordsMin] = useState({
+        RecordsMin: 10,
+    });
 
     // default parameters to pass in
     const [options, setOptions] = useState({
@@ -84,6 +87,39 @@ const Test = () => {
         setAddressLoading(false);
     }
 
+    async function checkRecordsMinReached(numRecords, attempts) {
+      console.log(attempts);
+      if (attempts > 3 || numRecords > 500) {
+        console.log("Max attempts reached or number too big")
+        return;
+      } else {
+        attempts++;
+        let test = await axios.post(proxy + url, qs.stringify(options), config);
+        let records = test.data.Paging.TotalRecords;
+        console.log(options);
+        console.log(test);
+        console.log(records);
+        if (records < numRecords) {
+          let longMax = options.LongitudeMax + 0.07;
+          let longMin = options.LongitudeMin - 0.07;
+          let latMax = options.LatitudeMax + 0.07;
+          let latMin = options.LatitudeMin - 0.07;
+          console.log(longMax);
+          console.log(options.LongitudeMax);
+          setOptions((prevState) => ({
+              ...prevState,
+              LongitudeMax: longMax,
+              LongitudeMin: longMin,
+              LatitudeMax: latMax,
+              LatitudeMin: latMin,
+          }));
+          console.log(options.LongitudeMax);
+          checkRecordsMinReached(numRecords, attempts);
+        }
+        return;
+      }
+    }
+
     // Filter that changes parameters
     const onChange = (e) => {
         const { name, value } = e.target;
@@ -101,6 +137,14 @@ const Test = () => {
         }));
     };
 
+    const onChangeRecordsMin = (e) => {
+        const { value } = e.target;
+        setRecordsMin((prevState) => ({
+            ...prevState,
+            recordsMin: value,
+        }));
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -110,7 +154,10 @@ const Test = () => {
 
     // fetch housing data whenever new address is loaded
     useEffect(() => {
-        if (addressLoading === false) fetchData(options);
+        if (addressLoading === false) {
+          checkRecordsMinReached(recordsMin.RecordsMin, 0);
+          fetchData(options);
+        }
     }, [addressLoading]);
 
     return (
@@ -168,6 +215,14 @@ const Test = () => {
                                 onChange={onChange}
                                 name="PriceMax"
                                 className="filter"
+                            />
+                            <label>Records Min: </label>
+                            <input
+                              value={recordsMin.RecordsMin}
+                              type="number"
+                              onChange={onChangeRecordsMin}
+                              name="RecordsMin"
+                              className="filter"
                             />
                             <br />
                             <br />
