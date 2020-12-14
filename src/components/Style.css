@@ -142,6 +142,11 @@ td {
     margin: none;
 }
 
+.search-icon {
+    font-size: 30px;
+    color: rgb(65, 65, 65);
+}
+
 .marker {
     border: 2px solid #f3746f;
     background: #f2f2f2;

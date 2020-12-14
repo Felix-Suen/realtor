@@ -9,8 +9,8 @@ const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
         latitude: coords.Latitude,
         longitude: coords.Longitude,
-        zoom: 13,
-        width: '55vw',
+        zoom: 14,
+        width: '70vw',
         height: '70vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);
@@ -52,7 +52,7 @@ const Map = ({ content, coords }) => {
                 ))}
 
                 <Marker latitude={coords.Latitude} longitude={coords.Longitude}>
-                    <div style={{ fontSize: '30px', color: '#f3746f' }}>
+                    <div className='search-icon'>
                         <FontAwesomeIcon icon={faSearchDollar} />
                     </div>
                 </Marker>

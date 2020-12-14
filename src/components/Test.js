@@ -18,9 +18,7 @@ const Test = () => {
     const [address, setAddress] = useState({
         Address: '',
     });
-    const [recordsMin, setRecordsMin] = useState({
-        RecordsMin: 10,
-    });
+    const recordsMin = 10;
     const [attempts, setAttempts] = useState({
       Attempts: 0,
     });
@@ -139,14 +137,6 @@ const Test = () => {
         }));
     };
 
-    const onChangeRecordsMin = (e) => {
-        const { value } = e.target;
-        setRecordsMin((prevState) => ({
-            ...prevState,
-            RecordsMin: value,
-        }));
-    };
-
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -156,14 +146,14 @@ const Test = () => {
 
     // fetch housing data whenever new address is loaded
     useEffect(() => {
-        if (!addressLoading) checkRecordsMinReached(recordsMin.RecordsMin);
+        if (!addressLoading) checkRecordsMinReached(recordsMin);
     }, [addressLoading]);
 
     useEffect(() => {
       if (attempts.Attempts === 0) {
         return;
       }
-      checkRecordsMinReached(recordsMin.RecordsMin);
+      checkRecordsMinReached(recordsMin);
     }, [attempts]);
 
     useEffect(() => {
@@ -228,14 +218,6 @@ const Test = () => {
                                 onChange={onChange}
                                 name="PriceMax"
                                 className="filter"
-                            />
-                            <label>Records Min: </label>
-                            <input
-                              value={recordsMin.RecordsMin}
-                              type="number"
-                              onChange={onChangeRecordsMin}
-                              name="RecordsMin"
-                              className="filter"
                             />
                             <br />
                             <br />
