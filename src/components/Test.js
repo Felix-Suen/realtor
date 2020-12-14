@@ -21,6 +21,10 @@ const Test = () => {
     const [recordsMin, setRecordsMin] = useState({
         RecordsMin: 10,
     });
+    const [attempts, setAttempts] = useState({
+      Attempts: 0,
+    });
+    const [recordsLoading, setRecordsLoading] = useState(true);
 
     // default parameters to pass in
     const [options, setOptions] = useState({
@@ -69,7 +73,6 @@ const Test = () => {
                 '.json?access_token=pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg',
             { params: { limit: 1 } }
         );
-        console.log(res.data.features[0].geometry.coordinates);
         let long = res.data.features[0].geometry.coordinates[0];
         let lat = res.data.features[0].geometry.coordinates[1];
         setCoords((prevState) => ({
@@ -87,25 +90,21 @@ const Test = () => {
         setAddressLoading(false);
     }
 
-    async function checkRecordsMinReached(numRecords, attempts) {
-      console.log(attempts);
-      if (attempts > 3 || numRecords > 500) {
-        console.log("Max attempts reached or number too big")
-        return;
+    async function checkRecordsMinReached(numRecords) {
+      if (attempts.Attempts > 5 || numRecords > 500) {
+        console.log("Max attempts reached or number too big");
+        setAttempts((prevState) => ({
+          ...prevState,
+          Attempts: 0,
+        }));
       } else {
-        attempts++;
         let test = await axios.post(proxy + url, qs.stringify(options), config);
         let records = test.data.Paging.TotalRecords;
-        console.log(options);
-        console.log(test);
-        console.log(records);
         if (records < numRecords) {
-          let longMax = options.LongitudeMax + 0.07;
-          let longMin = options.LongitudeMin - 0.07;
-          let latMax = options.LatitudeMax + 0.07;
-          let latMin = options.LatitudeMin - 0.07;
-          console.log(longMax);
-          console.log(options.LongitudeMax);
+          let longMax = options.LongitudeMax + 0.007;
+          let longMin = options.LongitudeMin - 0.007;
+          let latMax = options.LatitudeMax + 0.007;
+          let latMin = options.LatitudeMin - 0.007;
           setOptions((prevState) => ({
               ...prevState,
               LongitudeMax: longMax,
@@ -113,11 +112,14 @@ const Test = () => {
               LatitudeMax: latMax,
               LatitudeMin: latMin,
           }));
-          console.log(options.LongitudeMax);
-          checkRecordsMinReached(numRecords, attempts);
+          setAttempts((prevState) => ({
+            ...prevState,
+            Attempts: attempts.Attempts + 1,
+          }));
+          return;
         }
-        return;
       }
+      setRecordsLoading(false);
     }
 
     // Filter that changes parameters
@@ -141,7 +143,7 @@ const Test = () => {
         const { value } = e.target;
         setRecordsMin((prevState) => ({
             ...prevState,
-            recordsMin: value,
+            RecordsMin: value,
         }));
     };
 
@@ -154,11 +156,22 @@ const Test = () => {
 
     // fetch housing data whenever new address is loaded
     useEffect(() => {
-        if (addressLoading === false) {
-          checkRecordsMinReached(recordsMin.RecordsMin, 0);
-          fetchData(options);
-        }
+        if (!addressLoading) checkRecordsMinReached(recordsMin.RecordsMin);
     }, [addressLoading]);
+
+    useEffect(() => {
+      if (attempts.Attempts === 0) {
+        return;
+      }
+      checkRecordsMinReached(recordsMin.RecordsMin);
+    }, [attempts]);
+
+    useEffect(() => {
+      if (!recordsLoading) {
+        setRecordsLoading(true);
+        fetchData(options);
+      }
+    }, [recordsLoading]);
 
     return (
         <div className="everything">
