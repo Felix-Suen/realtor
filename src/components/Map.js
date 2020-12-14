@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import './Style.css';
 import { Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearchDollar } from '@fortawesome/free-solid-svg-icons';
 
 const Map = ({ content, coords }) => {
     const [viewport, setViewport] = useState({
         latitude: coords.Latitude,
         longitude: coords.Longitude,
-        zoom: 14,
-        width: '70vw',
+        zoom: 13,
+        width: '55vw',
         height: '70vh',
     });
     const [selectedHouse, setSelectedHouse] = useState(null);
@@ -49,6 +51,12 @@ const Map = ({ content, coords }) => {
                     </Marker>
                 ))}
 
+                <Marker latitude={coords.Latitude} longitude={coords.Longitude}>
+                    <div style={{ fontSize: '30px', color: '#f3746f' }}>
+                        <FontAwesomeIcon icon={faSearchDollar} />
+                    </div>
+                </Marker>
+
                 {selectedHouse ? (
                     <Popup
                         latitude={parseFloat(
@@ -62,7 +70,9 @@ const Map = ({ content, coords }) => {
                         }}
                     >
                         <div className="popup">
-                            <b style={{ color: '#f3746f' }}>{selectedHouse.Property.Address.AddressText}</b>
+                            <b style={{ color: '#f3746f' }}>
+                                {selectedHouse.Property.Address.AddressText}
+                            </b>
                             <Container>
                                 <Row>
                                     <Col>
