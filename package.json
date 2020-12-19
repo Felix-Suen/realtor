@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "ml-regression-multivariate-linear": "^2.0.3",
     "querystring": "^0.2.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
