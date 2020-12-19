@@ -28,7 +28,7 @@ const Map = ({ content, coords }) => {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken="pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg"
-                mapStyle="mapbox://styles/feng-guo/ckigexbc5149t19o4ezx8zjug"
+                mapStyle="mapbox://styles/feng-guo/ckiryzwne0gei19p0i8xn67cz"
                 onViewportChange={(viewport) => {
                     setViewport(viewport);
                 }}
