@@ -228,14 +228,16 @@ const Main = () => {
                                 <br />
                             </form>
 
-                            <div className="map">
-                                <Map content={content} coords={coords} />
-                            </div>
-
                             <br />
                             <br />
 
                             <DataDisplay content={content} />
+
+                            <br />
+                            <br />
+                            <div className="map">
+                                <Map content={content} coords={coords} />
+                            </div>
                         </div>
                     )
                 ) : (

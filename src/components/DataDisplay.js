@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
+import { Card, CardDeck } from 'react-bootstrap';
 
 const DataDisplay = ({ content }) => {
     var dimensions = [];
     var result = [];
+    var price = [];
+
     const [display, setDisplay] = useState([]);
     const [predicting, setPredicting] = useState(true);
     const [error, setError] = useState(false);
+    const [apartment, setApartment] = useState(0);
+    const [house, setHouse] = useState(0);
 
     var options = {
         PropertyId: '',
@@ -109,7 +114,6 @@ const DataDisplay = ({ content }) => {
             if (result.length <= 5) setError(true);
             else {
                 // split the array for ML
-                var price = [];
                 result.map((house) => {
                     var priceArray = [];
                     priceArray.push(house[4]);
@@ -119,16 +123,17 @@ const DataDisplay = ({ content }) => {
 
                 // ML
                 const mlr = new MLR(result, price);
+                setApartment(Math.round(mlr.predict([1, 2, 2, 60])));
+                setHouse(Math.round(mlr.predict([0, 5, 4, 200])));
 
-                // put it back into excel rows
-                result.map((house, index) => {
-                    house.push(price[index][0]);
-                    var predict = mlr.predict(house)[0];
-                    predict = Math.round(predict);
-                    house.push(predict);
-                });
-                console.log(result);
-                setDisplay(result);
+                // result.map((house, index) => {
+                //     house.push(price[index][0]);
+                //     var predict = mlr.predict(house)[0];
+                //     predict = Math.round(predict);
+                //     house.push(predict);
+                // });
+                // console.log(result);
+                // setDisplay(result);
             }
             setPredicting(false);
         });
@@ -139,36 +144,37 @@ const DataDisplay = ({ content }) => {
     }, [content]);
 
     return (
-        <div style={{ display: 'table', margin: '0 auto' }}>
+        <div style={{ display: 'table', margin: '0 auto', width: '70%' }}>
             {predicting ? (
                 <p>predicting...</p>
             ) : error ? (
                 <p>Insufficient Data for prediction</p>
             ) : (
-                <table>
-                    <tbody>
-                        <tr style={{ textAlign: 'left' }}>
-                            <th>Index</th>
-                            <th>Type</th>
-                            <th># Bedroom</th>
-                            <th># Bathroom</th>
-                            <th>Total Space</th>
-                            <th>Price</th>
-                            <th>Predicted</th>
-                        </tr>
-                        {display.map((res, index) => (
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{res[0]}</td>
-                                <td>{res[1]}</td>
-                                <td>{res[2]}</td>
-                                <td>{res[3]}</td>
-                                <td>{res[4]}</td>
-                                <td>{res[5]}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <CardDeck>
+                    <Card>
+                        <Card.Img variant="top" src="https://img.icons8.com/ios/452/apartment.png" />
+                        <Card.Body>
+                            <Card.Title>Apartment</Card.Title>
+                            <Card.Text>{apartment}</Card.Text>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Img variant="top" src="https://www.flaticon.com/svg/static/icons/svg/25/25694.svg" />
+                        <Card.Body>
+                            <Card.Title>House</Card.Title>
+                            <Card.Text>{house}</Card.Text>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Img variant="top" src="https://simpleicon.com/wp-content/uploads/setting2.png" />
+                        <Card.Body>
+                            <Card.Title>Custom Prediction</Card.Title>
+                            <Card.Text>
+                                
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </CardDeck>
             )}
         </div>
     );
