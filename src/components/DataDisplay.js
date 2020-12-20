@@ -152,26 +152,38 @@ const DataDisplay = ({ content }) => {
             ) : (
                 <CardDeck>
                     <Card>
-                        <Card.Img variant="top" src="https://img.icons8.com/ios/452/apartment.png" />
+                        <Card.Img
+                            variant="top"
+                            src="https://img.icons8.com/ios/452/apartment.png"
+                            style={{ height: '200px', width: '200px' }}
+                        />
                         <Card.Body>
                             <Card.Title>Apartment</Card.Title>
-                            <Card.Text>{apartment}</Card.Text>
+                            <Card.Text>
+                                2 Beds, 2 Baths, 650sqft: <b>${apartment}</b>
+                            </Card.Text>
                         </Card.Body>
                     </Card>
                     <Card>
-                        <Card.Img variant="top" src="https://www.flaticon.com/svg/static/icons/svg/25/25694.svg" />
+                        <Card.Img
+                            variant="top"
+                            src="https://www.flaticon.com/svg/static/icons/svg/25/25694.svg"
+                            style={{ height: '200px', width: '200px' }}
+                        />
                         <Card.Body>
                             <Card.Title>House</Card.Title>
-                            <Card.Text>{house}</Card.Text>
+                            <Card.Text>5 Beds, 4 Baths, 2152sqft: <b>${house}</b></Card.Text>
                         </Card.Body>
                     </Card>
                     <Card>
-                        <Card.Img variant="top" src="https://simpleicon.com/wp-content/uploads/setting2.png" />
+                        <Card.Img
+                            variant="top"
+                            src="https://simpleicon.com/wp-content/uploads/setting2.png"
+                            style={{ height: '200px', width: '200px' }}
+                        />
                         <Card.Body>
                             <Card.Title>Custom Prediction</Card.Title>
-                            <Card.Text>
-                                
-                            </Card.Text>
+                            <Card.Text></Card.Text>
                         </Card.Body>
                     </Card>
                 </CardDeck>
