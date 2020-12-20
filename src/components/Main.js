@@ -20,7 +20,7 @@ const Main = () => {
     });
     const recordsMin = 10;
     const [attempts, setAttempts] = useState({
-      Attempts: 0,
+        Attempts: 0,
     });
     const [recordsLoading, setRecordsLoading] = useState(true);
 
@@ -62,6 +62,7 @@ const Main = () => {
         setContent(res.data.Results);
         setLoading(false);
         setAddressLoading(true);
+        // console.log(options.LongitudeMax, options.LongitudeMin, options.LatitudeMax, options.LatitudeMin);
     }
 
     async function findGeoCode(address) {
@@ -89,35 +90,39 @@ const Main = () => {
     }
 
     async function checkRecordsMinReached(numRecords) {
-      if (attempts.Attempts > 5 || numRecords > 500) {
-        console.log("Max attempts reached or number too big");
-        setAttempts((prevState) => ({
-          ...prevState,
-          Attempts: 0,
-        }));
-      } else {
-        let test = await axios.post(proxy + url, qs.stringify(options), config);
-        let records = test.data.Paging.TotalRecords;
-        if (records < numRecords) {
-          let longMax = options.LongitudeMax + 0.007;
-          let longMin = options.LongitudeMin - 0.007;
-          let latMax = options.LatitudeMax + 0.007;
-          let latMin = options.LatitudeMin - 0.007;
-          setOptions((prevState) => ({
-              ...prevState,
-              LongitudeMax: longMax,
-              LongitudeMin: longMin,
-              LatitudeMax: latMax,
-              LatitudeMin: latMin,
-          }));
-          setAttempts((prevState) => ({
-            ...prevState,
-            Attempts: attempts.Attempts + 1,
-          }));
-          return;
+        if (attempts.Attempts > 5 || numRecords > 500) {
+            console.log('Max attempts reached or number too big');
+            setAttempts((prevState) => ({
+                ...prevState,
+                Attempts: 0,
+            }));
+        } else {
+            let test = await axios.post(
+                proxy + url,
+                qs.stringify(options),
+                config
+            );
+            let records = test.data.Paging.TotalRecords;
+            if (records < numRecords) {
+                let longMax = options.LongitudeMax + 0.007;
+                let longMin = options.LongitudeMin - 0.007;
+                let latMax = options.LatitudeMax + 0.007;
+                let latMin = options.LatitudeMin - 0.007;
+                setOptions((prevState) => ({
+                    ...prevState,
+                    LongitudeMax: longMax,
+                    LongitudeMin: longMin,
+                    LatitudeMax: latMax,
+                    LatitudeMin: latMin,
+                }));
+                setAttempts((prevState) => ({
+                    ...prevState,
+                    Attempts: attempts.Attempts + 1,
+                }));
+                return;
+            }
         }
-      }
-      setRecordsLoading(false);
+        setRecordsLoading(false);
     }
 
     // Filter that changes parameters
@@ -150,17 +155,17 @@ const Main = () => {
     }, [addressLoading]);
 
     useEffect(() => {
-      if (attempts.Attempts === 0) {
-        return;
-      }
-      checkRecordsMinReached(recordsMin);
+        if (attempts.Attempts === 0) {
+            return;
+        }
+        checkRecordsMinReached(recordsMin);
     }, [attempts]);
 
     useEffect(() => {
-      if (!recordsLoading) {
-        setRecordsLoading(true);
-        fetchData(options);
-      }
+        if (!recordsLoading) {
+            setRecordsLoading(true);
+            fetchData(options);
+        }
     }, [recordsLoading]);
 
     return (
@@ -196,31 +201,31 @@ const Main = () => {
                             <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
-                            <p>Might take a hot minute...</p>
+                            <p>Fetching Nearby Data</p>
                         </div>
                     ) : (
                         <div>
                             <form className="filter-form">
-                            <br />
-                            <br />
-                            <label>Price Min: </label>
-                            <input
-                                value={options.PriceMin}
-                                type="number"
-                                onChange={onChange}
-                                name="PriceMin"
-                                className="filter"
-                            />{' '}
-                            <label>Price Max: </label>
-                            <input
-                                value={options.PriceMax}
-                                type="number"
-                                onChange={onChange}
-                                name="PriceMax"
-                                className="filter"
-                            />
-                            <br />
-                            <br />
+                                <br />
+                                <br />
+                                <label>Price Min: </label>
+                                <input
+                                    value={options.PriceMin}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMin"
+                                    className="filter"
+                                />{' '}
+                                <label>Price Max: </label>
+                                <input
+                                    value={options.PriceMax}
+                                    type="number"
+                                    onChange={onChange}
+                                    name="PriceMax"
+                                    className="filter"
+                                />
+                                <br />
+                                <br />
                             </form>
 
                             <div className="map">

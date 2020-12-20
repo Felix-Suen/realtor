@@ -7,6 +7,8 @@ const DataDisplay = ({ content }) => {
     var dimensions = [];
     var result = [];
     const [display, setDisplay] = useState([]);
+    const [predicting, setPredicting] = useState(true);
+    const [error, setError] = useState(false);
 
     var options = {
         PropertyId: '',
@@ -104,27 +106,31 @@ const DataDisplay = ({ content }) => {
                 (row) => row !== undefined && row[3] > 0 && row[3] < 300
             );
 
-            // split the array for ML
-            var price = [];
-            result.map((house) => {
-                var priceArray = [];
-                priceArray.push(house[4]);
-                price.push(priceArray);
-                house.pop();
-            });
+            if (result.length <= 5) setError(true);
+            else {
+                // split the array for ML
+                var price = [];
+                result.map((house) => {
+                    var priceArray = [];
+                    priceArray.push(house[4]);
+                    price.push(priceArray);
+                    house.pop();
+                });
 
-            // ML
-            const mlr = new MLR(result, price);
+                // ML
+                const mlr = new MLR(result, price);
 
-            // put it back into excel rows
-            result.map((house, index) => {
-                house.push(price[index][0]);
-                var predict = mlr.predict(house)[0];
-                predict = Math.round(predict * 100) / 100;
-                house.push(predict);
-            });
-            console.log(result);
-            setDisplay(result);
+                // put it back into excel rows
+                result.map((house, index) => {
+                    house.push(price[index][0]);
+                    var predict = mlr.predict(house)[0];
+                    predict = Math.round(predict);
+                    house.push(predict);
+                });
+                console.log(result);
+                setDisplay(result);
+            }
+            setPredicting(false);
         });
     };
 
@@ -133,31 +139,37 @@ const DataDisplay = ({ content }) => {
     }, [content]);
 
     return (
-        <div style={{ overflowX: 'auto' }}>
-            <table style={{ display: 'table', margin: '0 auto' }}>
-                <tbody>
-                    <tr style={{ textAlign: 'left' }}>
-                        <th>Index</th>
-                        <th>Type</th>
-                        <th># Bedroom</th>
-                        <th># Bathroom</th>
-                        <th>Total Space</th>
-                        <th>Price</th>
-                        <th>Predicted</th>
-                    </tr>
-                    {display.map((res, index) => (
-                        <tr>
-                            <td>{index + 1}</td>
-                            <td>{res[0]}</td>
-                            <td>{res[1]}</td>
-                            <td>{res[2]}</td>
-                            <td>{res[3]}</td>
-                            <td>{res[4]}</td>
-                            <td>{res[5]}</td>
+        <div style={{ display: 'table', margin: '0 auto' }}>
+            {predicting ? (
+                <p>predicting...</p>
+            ) : error ? (
+                <p>Insufficient Data for prediction</p>
+            ) : (
+                <table>
+                    <tbody>
+                        <tr style={{ textAlign: 'left' }}>
+                            <th>Index</th>
+                            <th>Type</th>
+                            <th># Bedroom</th>
+                            <th># Bathroom</th>
+                            <th>Total Space</th>
+                            <th>Price</th>
+                            <th>Predicted</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {display.map((res, index) => (
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{res[0]}</td>
+                                <td>{res[1]}</td>
+                                <td>{res[2]}</td>
+                                <td>{res[3]}</td>
+                                <td>{res[4]}</td>
+                                <td>{res[5]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };
