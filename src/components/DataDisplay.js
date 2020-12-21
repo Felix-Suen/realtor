@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
-import { Card, CardDeck } from 'react-bootstrap';
+import { Card, CardDeck, Button, Modal } from 'react-bootstrap';
 import aptImg from '../img/apartment.png';
 import houseImg from '../img/house.png';
 import customImg from '../img/custom.png';
@@ -12,11 +12,11 @@ const DataDisplay = ({ content }) => {
     var result = [];
     var price = [];
 
-    const [display, setDisplay] = useState([]);
     const [predicting, setPredicting] = useState(true);
     const [error, setError] = useState(false);
     const [apartment, setApartment] = useState(0);
     const [house, setHouse] = useState(0);
+    const [modalShow, setModalShow] = React.useState(false);
 
     var options = {
         PropertyId: '',
@@ -146,6 +146,31 @@ const DataDisplay = ({ content }) => {
         getData(content);
     }, [content]);
 
+    function MyVerticallyCenteredModal(props) {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Details about the property
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        Cras mattis consectetur purus sit amet fermentum. Cras
+                        justo odio, dapibus ac facilisis in, egestas eget quam.
+                        Morbi leo risus, porta ac consectetur ac, vestibulum at
+                        eros.
+                    </p>
+                </Modal.Body>
+            </Modal>
+        );
+    }
+
     return (
         <div style={{ display: 'table', margin: '0 auto', width: '70%' }}>
             {predicting ? (
@@ -179,7 +204,8 @@ const DataDisplay = ({ content }) => {
                             <Card.Body>
                                 <Card.Title>House</Card.Title>
                                 <Card.Text>
-                                    5 Beds, 4 Baths, 2000sqft: <b>${house.toLocaleString()}</b>
+                                    5 Beds, 4 Baths, 2000sqft:{' '}
+                                    <b>${house.toLocaleString()}</b>
                                 </Card.Text>
                             </Card.Body>
                         </Card>
@@ -190,8 +216,21 @@ const DataDisplay = ({ content }) => {
                                 style={{ height: '200px', width: '200px' }}
                             />
                             <Card.Body>
-                                <Card.Title>Custom Prediction</Card.Title>
-                                <Card.Text></Card.Text>
+                                <Card.Text style={{ textAlign: 'center' }}>
+                                    <Button
+                                        style={{
+                                            backgroundColor: '#f3746f',
+                                            border: 'none',
+                                        }}
+                                        onClick={() => setModalShow(true)}
+                                    >
+                                        Customize Property
+                                    </Button>
+                                    <MyVerticallyCenteredModal
+                                        show={modalShow}
+                                        onHide={() => setModalShow(false)}
+                                    />
+                                </Card.Text>
                             </Card.Body>
                         </Card>
                     </CardDeck>
