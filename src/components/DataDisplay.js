@@ -3,6 +3,9 @@ import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
 import { Card, CardDeck } from 'react-bootstrap';
+import aptImg from '../img/apartment.png';
+import houseImg from '../img/house.png';
+import customImg from '../img/custom.png';
 
 const DataDisplay = ({ content }) => {
     var dimensions = [];
@@ -154,7 +157,7 @@ const DataDisplay = ({ content }) => {
                     <Card>
                         <Card.Img
                             variant="top"
-                            src="https://img.icons8.com/ios/452/apartment.png"
+                            src={aptImg}
                             style={{ height: '200px', width: '200px' }}
                         />
                         <Card.Body>
@@ -167,7 +170,7 @@ const DataDisplay = ({ content }) => {
                     <Card>
                         <Card.Img
                             variant="top"
-                            src="https://www.flaticon.com/svg/static/icons/svg/25/25694.svg"
+                            src={houseImg}
                             style={{ height: '200px', width: '200px' }}
                         />
                         <Card.Body>
@@ -178,7 +181,7 @@ const DataDisplay = ({ content }) => {
                     <Card>
                         <Card.Img
                             variant="top"
-                            src="https://simpleicon.com/wp-content/uploads/setting2.png"
+                            src={customImg}
                             style={{ height: '200px', width: '200px' }}
                         />
                         <Card.Body>
