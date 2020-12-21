@@ -83,7 +83,7 @@ b {
 }
 
 /* filter */
-.filter-form {
+/* .filter-form {
     display: flex;
     position: relative;
     padding-top: 10vh;
@@ -110,7 +110,7 @@ label {
     height: 36px;
     width: 110px;
     margin-right: 5px;
-}
+} */
 
 /* content */
 table,

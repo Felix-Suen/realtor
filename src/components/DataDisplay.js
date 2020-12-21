@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
-import { Card, CardDeck, Button, Modal } from 'react-bootstrap';
+import { Card, CardDeck, Button, Modal, Form } from 'react-bootstrap';
 import aptImg from '../img/apartment.png';
 import houseImg from '../img/house.png';
 import customImg from '../img/custom.png';
@@ -155,17 +155,55 @@ const DataDisplay = ({ content }) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Details about the property
+                    <Modal.Title style={{ color: '#f3746f' }} id="contained-modal-title-vcenter">
+                        Details About the Property
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>
-                        Cras mattis consectetur purus sit amet fermentum. Cras
-                        justo odio, dapibus ac facilisis in, egestas eget quam.
-                        Morbi leo risus, porta ac consectetur ac, vestibulum at
-                        eros.
-                    </p>
+                    <Form>
+                        <Form.Group controlId="exampleForm.SelectCustom">
+                            <Form.Label>Property Type</Form.Label>
+                            <Form.Control as="select" custom>
+                                <option>Apartment</option>
+                                <option>House</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Number of Bedrooms</Form.Label>
+                            <Form.Control
+                                type="number"
+                                placeholder="Enter a Number"
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Number of Bathrooms</Form.Label>
+                            <Form.Control
+                                type="number"
+                                placeholder="Enter a Number"
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label>Property Size</Form.Label>
+                            <Form.Control
+                                type="number"
+                                placeholder="In Square Feet"
+                            />
+                        </Form.Group>
+
+                        <Button
+                            style={{
+                                backgroundColor: '#f3746f',
+                                border: 'none',
+                            }}
+                            variant="primary"
+                            type="submit"
+                        >
+                            Predict
+                        </Button>
+                    </Form>
                 </Modal.Body>
             </Modal>
         );
