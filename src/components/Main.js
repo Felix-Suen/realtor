@@ -205,7 +205,7 @@ const Main = () => {
                         </div>
                     ) : (
                         <div>
-                            <form className="filter-form">
+                            {/* <form className="filter-form">
                                 <br />
                                 <br />
                                 <label>Price Min: </label>
@@ -226,7 +226,7 @@ const Main = () => {
                                 />
                                 <br />
                                 <br />
-                            </form>
+                    </form> */}
 
                             <br />
                             <br />

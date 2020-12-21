@@ -127,7 +127,7 @@ const DataDisplay = ({ content }) => {
                 // ML
                 const mlr = new MLR(result, price);
                 setApartment(Math.round(mlr.predict([1, 2, 2, 60])));
-                setHouse(Math.round(mlr.predict([0, 5, 4, 200])));
+                setHouse(Math.round(mlr.predict([0, 5, 4, 185.8])));
 
                 // result.map((house, index) => {
                 //     house.push(price[index][0]);
@@ -153,43 +153,49 @@ const DataDisplay = ({ content }) => {
             ) : error ? (
                 <p>Insufficient Data for prediction</p>
             ) : (
-                <CardDeck>
-                    <Card>
-                        <Card.Img
-                            variant="top"
-                            src={aptImg}
-                            style={{ height: '200px', width: '200px' }}
-                        />
-                        <Card.Body>
-                            <Card.Title>Apartment</Card.Title>
-                            <Card.Text>
-                                2 Beds, 2 Baths, 650sqft: <b>${apartment}</b>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Img
-                            variant="top"
-                            src={houseImg}
-                            style={{ height: '200px', width: '200px' }}
-                        />
-                        <Card.Body>
-                            <Card.Title>House</Card.Title>
-                            <Card.Text>5 Beds, 4 Baths, 2152sqft: <b>${house}</b></Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Img
-                            variant="top"
-                            src={customImg}
-                            style={{ height: '200px', width: '200px' }}
-                        />
-                        <Card.Body>
-                            <Card.Title>Custom Prediction</Card.Title>
-                            <Card.Text></Card.Text>
-                        </Card.Body>
-                    </Card>
-                </CardDeck>
+                <div>
+                    <h3>Price Predictions for this Area</h3>
+                    <CardDeck>
+                        <Card>
+                            <Card.Img
+                                variant="top"
+                                src={aptImg}
+                                style={{ height: '200px', width: '200px' }}
+                            />
+                            <Card.Body>
+                                <Card.Title>Apartment</Card.Title>
+                                <Card.Text>
+                                    2 Beds, 2 Baths, 650sqft:{' '}
+                                    <b>${apartment.toLocaleString()}</b>
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Img
+                                variant="top"
+                                src={houseImg}
+                                style={{ height: '200px', width: '200px' }}
+                            />
+                            <Card.Body>
+                                <Card.Title>House</Card.Title>
+                                <Card.Text>
+                                    5 Beds, 4 Baths, 2000sqft: <b>${house.toLocaleString()}</b>
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Img
+                                variant="top"
+                                src={customImg}
+                                style={{ height: '200px', width: '200px' }}
+                            />
+                            <Card.Body>
+                                <Card.Title>Custom Prediction</Card.Title>
+                                <Card.Text></Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </CardDeck>
+                </div>
             )}
         </div>
     );

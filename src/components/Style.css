@@ -4,6 +4,10 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+b {
+    color:#f3746f;
+}
+
 .everything {
     display: table;
     width: 100%;
@@ -30,7 +34,7 @@ body {
 
 .about h3 {
     color: #f3746f;
-    padding-top: 50px;
+    padding-top: 30px;
 }
 
 .intro {

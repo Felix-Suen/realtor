@@ -25,6 +25,7 @@ const Map = ({ content, coords }) => {
 
     return (
         <div>
+            <h3>All Nearby Valuations</h3>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken="pk.eyJ1IjoiZmVuZy1ndW8iLCJhIjoiY2tpZzZlbDR0MGNpZzJxcXBodWZ3b3M3cSJ9.SpRJgUpSDBkD_V29dUtpLg"
