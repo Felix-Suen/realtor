@@ -13,6 +13,8 @@ const DataDisplay = ({ content }) => {
     var result = [];
     var price = [];
 
+    const [resultState, setResultState] = useState([]);
+    const [priceState, setPriceState] = useState([]);
     const [predicting, setPredicting] = useState(true);
     const [error, setError] = useState(false);
     const [apartment, setApartment] = useState(0);
@@ -125,6 +127,9 @@ const DataDisplay = ({ content }) => {
                     house.pop();
                 });
 
+                setResultState(result);
+                setPriceState(price);
+
                 // ML
                 const mlr = new MLR(result, price);
                 setApartment(Math.round(mlr.predict([1, 2, 2, 60])));
@@ -164,7 +169,7 @@ const DataDisplay = ({ content }) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CustomForm />
+                    <CustomForm result={resultState} price={priceState} />
                 </Modal.Body>
             </Modal>
         );
