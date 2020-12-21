@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import CustomForm from './CustomForm';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
-import { Card, CardDeck, Button, Modal, Form } from 'react-bootstrap';
+import { Card, CardDeck, Button, Modal } from 'react-bootstrap';
 import aptImg from '../img/apartment.png';
 import houseImg from '../img/house.png';
 import customImg from '../img/custom.png';
@@ -16,7 +17,7 @@ const DataDisplay = ({ content }) => {
     const [error, setError] = useState(false);
     const [apartment, setApartment] = useState(0);
     const [house, setHouse] = useState(0);
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
     var options = {
         PropertyId: '',
@@ -155,55 +156,15 @@ const DataDisplay = ({ content }) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ color: '#f3746f' }} id="contained-modal-title-vcenter">
+                    <Modal.Title
+                        style={{ color: '#f3746f' }}
+                        id="contained-modal-title-vcenter"
+                    >
                         Details About the Property
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="exampleForm.SelectCustom">
-                            <Form.Label>Property Type</Form.Label>
-                            <Form.Control as="select" custom>
-                                <option>Apartment</option>
-                                <option>House</option>
-                            </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Number of Bedrooms</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="Enter a Number"
-                            />
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Number of Bathrooms</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="Enter a Number"
-                            />
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.Label>Property Size</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="In Square Feet"
-                            />
-                        </Form.Group>
-
-                        <Button
-                            style={{
-                                backgroundColor: '#f3746f',
-                                border: 'none',
-                            }}
-                            variant="primary"
-                            type="submit"
-                        >
-                            Predict
-                        </Button>
-                    </Form>
+                    <CustomForm />
                 </Modal.Body>
             </Modal>
         );
@@ -228,7 +189,7 @@ const DataDisplay = ({ content }) => {
                             <Card.Body>
                                 <Card.Title>Apartment</Card.Title>
                                 <Card.Text>
-                                    2 Beds, 2 Baths, 650sqft:{' '}
+                                    2 Beds, 2 Baths, 650 sqft:{' '}
                                     <b>${apartment.toLocaleString()}</b>
                                 </Card.Text>
                             </Card.Body>
@@ -242,7 +203,7 @@ const DataDisplay = ({ content }) => {
                             <Card.Body>
                                 <Card.Title>House</Card.Title>
                                 <Card.Text>
-                                    5 Beds, 4 Baths, 2000sqft:{' '}
+                                    5 Beds, 4 Baths, 2000 sqft:{' '}
                                     <b>${house.toLocaleString()}</b>
                                 </Card.Text>
                             </Card.Body>
