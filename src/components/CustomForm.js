@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import MLR from 'ml-regression-multivariate-linear';
+import customImg from '../img/custom.png';
 
 const CustomForm = ({ result, price }) => {
     const [custom, setCustom] = useState({
-        type: '',
+        type: 'Apartment',
         beds: null,
         baths: null,
         size: null,
@@ -102,7 +103,27 @@ const CustomForm = ({ result, price }) => {
                     </Button>
                 </Form>
             ) : (
-                <b>${predict.toLocaleString()}</b>
+                <Container>
+                    <Row>
+                        <Col style={{ textAlign: 'center' }}>
+                            <img
+                                src={customImg}
+                                alt="customImg"
+                                style={{ height: '200px', width: '200px' }}
+                            />
+                        </Col>
+                        <Col>
+                            <h3>Summary</h3>
+                            <ul>
+                                <li>{custom.type}</li>
+                                <li>{custom.beds} Bedrooms</li>
+                                <li>{custom.baths} Bathrooms</li>
+                                <li>{custom.size} sqft</li>
+                                <li>Custom prediction:{' '}<b>${predict.toLocaleString()}</b></li>
+                            </ul>
+                        </Col>
+                    </Row>
+                </Container>
             )}
         </div>
     );

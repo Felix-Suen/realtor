@@ -177,7 +177,7 @@ const Main = () => {
                             <img src={tower} alt="tower" />
                         </Col>
                         <Col md={6}>
-                            <h3>House Price Valuations Made Easy!</h3>
+                            <h3>Ontario House Valuations Made Easy!</h3>
                             <form className="search" onSubmit={onSubmit}>
                                 <input
                                     value={address.Address}
@@ -185,7 +185,7 @@ const Main = () => {
                                     onChange={onChangeAddress}
                                     name="Address"
                                     className="searchTerm"
-                                    placeholder="Search City, Neighbourhood, or Address"
+                                    placeholder="Search Address or Neighbourhood in Ontario"
                                 />
                                 <button type="submit" className="searchButton">
                                     Go
