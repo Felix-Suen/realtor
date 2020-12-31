@@ -3,7 +3,7 @@ import CustomForm from './CustomForm';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
-import { Card, CardDeck, Button, Modal } from 'react-bootstrap';
+import { Card, CardDeck, Button, Modal, Spinner } from 'react-bootstrap';
 import aptImg from '../img/apartment.png';
 import houseImg from '../img/house.png';
 import customImg from '../img/custom.png';
@@ -178,7 +178,12 @@ const DataDisplay = ({ content }) => {
     return (
         <div style={{ display: 'table', margin: '0 auto', width: '70%' }}>
             {predicting ? (
-                <p>predicting...</p>
+                <div className="loading">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                    <p>Parsing and Predicting</p>
+                </div>
             ) : error ? (
                 <p>Insufficient Data for prediction</p>
             ) : (
