@@ -44,6 +44,7 @@ const Map = ({ content, coords }) => {
                             className="marker"
                             onClick={(e) => {
                                 e.preventDefault();
+                                console.log(`https://www.realtor.ca/${house.RelativeDetailsURL}`);
                                 setSelectedHouse(house);
                             }}
                         >
@@ -69,10 +70,11 @@ const Map = ({ content, coords }) => {
                         onClose={() => {
                             setSelectedHouse(null);
                         }}
+                        closeOnClick={false}
                     >
                         <div className="popup">
                             <b style={{ color: '#f3746f' }}>
-                                {selectedHouse.Property.Address.AddressText}
+                                <a href={`https://www.realtor.ca${selectedHouse.RelativeDetailsURL}`} target="_blank">{selectedHouse.Property.Address.AddressText}</a>
                             </b>
                             <Container>
                                 <Row>

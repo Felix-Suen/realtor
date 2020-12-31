@@ -30,8 +30,8 @@ const CustomForm = ({ result, price }) => {
             parseInt(custom.baths),
             parseInt(custom.size / 10.764)
         );
-        console.log(customArray);
         const mlr = new MLR(result, price);
+        console.log(mlr);
         setPredict(Math.round(mlr.predict(customArray)));
         setPredictLoading(true);
     };
@@ -119,7 +119,10 @@ const CustomForm = ({ result, price }) => {
                                 <li>{custom.beds} Bedrooms</li>
                                 <li>{custom.baths} Bathrooms</li>
                                 <li>{custom.size} sqft</li>
-                                <li>Custom prediction:{' '}<b>${predict.toLocaleString()}</b></li>
+                                <li>
+                                    Custom prediction:{' '}
+                                    <b>${predict.toLocaleString()}</b>
+                                </li>
                             </ul>
                         </Col>
                     </Row>
