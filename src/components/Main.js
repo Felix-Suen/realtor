@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'querystring';
 import Map from './Map';
-import Intro from './Intro';
 import DataDisplay from './DataDisplay';
 import './Style.css';
 import tower from '../img/tower.png';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faLaptopCode, faNetworkWired, faBook, faBicycle} from '@fortawesome/free-solid-svg-icons';
 
 const Main = () => {
     const [content, setContent] = useState([]);
@@ -241,7 +242,12 @@ const Main = () => {
                         </div>
                     )
                 ) : (
-                    <Intro />
+                    <div className="intro">
+                        <FontAwesomeIcon icon={faLaptopCode} />{' '}
+                        <FontAwesomeIcon icon={faNetworkWired} />{' '}
+                        <FontAwesomeIcon icon={faBook} />{' '}
+                        <FontAwesomeIcon icon={faBicycle} />
+                    </div>
                 )}
             </div>
         </div>

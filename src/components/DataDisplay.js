@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustomForm from './CustomForm';
+import ErrorPage from './ErrorPage';
 import request from 'request-promise';
 import querystring from 'querystring';
 import MLR from 'ml-regression-multivariate-linear';
@@ -185,7 +186,7 @@ const DataDisplay = ({ content }) => {
                     <p>Parsing and Predicting</p>
                 </div>
             ) : error ? (
-                <p>Insufficient Data for prediction</p>
+                <ErrorPage />
             ) : (
                 <div>
                     <h3>Price Predictions for this Area</h3>
